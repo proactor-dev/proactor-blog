@@ -1,6 +1,6 @@
-# Continuous Deployment on GitHub Actions and Virtual Private Server
+# Continuous Delivery on GitHub Actions and Virtual Private Server
 
-This article discusses CI/CD pipeline based on GitHub Actions and Virtual Private Server. As an example CD pipeline is built for web applications with two separate technologies;
+This article discusses CI/CD pipeline based on GitHub Actions and Virtual Private Server. As an example CD pipeline is built for web applications with two separate technologies:
 
 1. Python (FastApi)
 2. Rust ("Some" Web Framework such as Rocket or Salvo)
@@ -25,7 +25,7 @@ Add following to Cargo.toml
 rocket = "0.5.0"
 ```
 Modify main.rs accordingly:
-```rs
+```rust
 #[macro_use] extern crate rocket;
 
 #[get("/")]
@@ -59,7 +59,7 @@ http://localhost:8081
 
 If everything went well let's stop the server with ```crtl-c``` and store the source code in github.
 
-### Step 3. Push the source code to GitHub repository
+### Step 3. Create local git repository
 Go to working folder and create local git repository
 ```bash
 git init -b main
@@ -67,9 +67,19 @@ git init -b main
 Add and commit existing files
 ```bash
 git add .
-
+git commit -m "Initial commit"
 ```
 
+### Step 4. Create empty GitHub repository
+* Go to github.com and sign in to your github account
+* Create new empty repository
+* Do not add README, licence or .gitignore files
+
+### Step 5. Attach to remote repo and push the source code to GitHub repository
+```sh
+git remote add origin REMOTE-URL
+git push -u origin main
+```
 
 ## Virtual Private Server (VPS)
 
