@@ -1,10 +1,10 @@
 # Deploy Rust Web App on Virtual Private Server
 
-This article discusses deploying Rust based web app on Virtual Private Server. In this example Debian 11 linux based VPS is used as a target machine for deployment.
+This article discusses deploying Rust based web app on Virtual Private Server (VPS). In this example Debian 11 linux based VPS is used as a target machine for deployment and Apache server as a web server.
 
 It is expected that Rust based web application exists on the git server that will be pulled and installed on the VPS.
 
-This article is based on this [post](https://steadylearner.medium.com/how-to-deploy-rust-web-application-8c0e81394bd5) about deploying Rust Web Application on DigitalOcean server with Nginx. In this article we will using private Virtual Private Server running Apache, which is going to be used as a Web Server instead of Nginx.
+This article is based on this [post](https://steadylearner.medium.com/how-to-deploy-rust-web-application-8c0e81394bd5) about deploying Rust web application on DigitalOcean server with Nginx. In this article we will using propriotary Virtual Private Server running Apache, which is going to be used as a web server instead of Nginx.
 
 ## Step 0. (Prerequisite) SSH to your Virtual Private Server
 Create SSH connection and login to your Virtual Private Server (VPS). Check you VPS provider for details if you don't know how.
@@ -21,7 +21,7 @@ $ sudo apt upgrade
 ```
 
 ### Install Git
-Git will be needed to download Web Application from the repository. This is needed, if you have a ready source code available in your repo. For this guide it's not mandatory, since there is another option to create Web App locally without using existing repo.
+Git will be needed to download web application from the repository. This is needed, if you have a ready source code available in your repo. For this guide it's not mandatory, since there is another option to create web app locally without using existing repo.
 ```sh
 $ sudo apt install git
 $ git --version # Verify that install succeeded
@@ -72,29 +72,29 @@ $ rustc --version
 rustc 1.74.1 (a28077b28 2023-12-04)
 ```
 
-If everything is ok, next step is to install and run Rust Web Application. In this example we will be using Rust Rocket Framework for this.
+If everything is ok, next step is to install and run Rust web application. In this example we will be using Rust Rocket framework for this.
 
 ## Step 2. Install Rust Rocket Web App
 
-Next let's create Rust Rocket Web App for experimental purposes.
+Next let's create Rust Rocket web app for experimental purposes.
 
-### Option A. Download Rust Rocket App from Github
-We will be using git to download existing Rocket Web App from Github. Alternatively you can follow **Option B.** and create new Web App locally, if you don't have ready App to experiment with.
+### Option A. Download Rust Rocket app from Github
+We will be using git to download existing Rocket web app from Github. Alternatively you can follow **Option B.** and create new web app locally, if you don't have ready app to experiment with.
 
-Let's download App from Github.
+Let's download app from Github.
 >Note we are using private repo in this example, so you should use your own repo or follow Step 2, Option B. below.
 ```sh
 $ git clone https://github.com/proactor-dev/rocket-poc.git
 ```
-If everything goes ok, you should now have your Rust Rocket Web Application cloned on your server. Conratulations! Next run the App in order to verity it runs locally
+If everything goes ok, you should now have your Rust Rocket web application cloned on your server. Conratulations! Next run the app in order to verity it runs locally
 
 ### Option B. Create new Rust Rocket Web Application
-In case you do not have ready Web Application to deploy, let's create simple one as an example.
+In case you do not have ready web application to deploy, let's create simple one as an example.
 
 [TODO]
 
 ## Step 3. Test running the Web App locally
-Next lets try running our newly installed Rust Rocket Web Application locally.
+Next lets try running our newly installed Rust Rocket web application locally.
 
 Todo this lets cd to correct folder and first check everything is ok with our with `cargo`:
 ```sh
@@ -121,4 +121,6 @@ If everything went as expected, you should now have your application operational
 ```
 The IP and port may be different on your case depending on your Rocket application configurations.
 
-Congratulations! This ends the first part of the article. Next we will configure Apache Server to serve Rocket Application to make it available from the Internet.
+Congratulations! This ends the first part of the article. Next we will make Rocket application run as a service and configure Apache to serve Rocket application to make it available from the Internet.
+
+## Step 3. Make Rust Application run as a service
