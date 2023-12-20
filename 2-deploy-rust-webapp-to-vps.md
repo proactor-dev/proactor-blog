@@ -181,7 +181,7 @@ Let's enable service so that it's operational even after system restart by typin
 $ sudo systemctl enable rocket-poc.service
 ```
 
-And finally in case we would like to stop running the systemd service we can type: `sudo systemctl start rocket-poc.service` or if we want to disable service from automatically restarting `sudo systemctl enable rocket-poc.service`.
+And finally in case we would like to stop running the systemd service we can type: `sudo systemctl stop rocket-poc.service` or if we want to disable service from automatically restarting `sudo systemctl disable rocket-poc.service`.
 
 ## Step 4. Configuring Apache server to work with our Rust web Application
 
@@ -213,20 +213,22 @@ Add following content to `your-app.conf`config file:
     ProxyPassReverse / http://localhost:8081/
 </VirtualHost>
 ```
-Again, replace `your-app` with the propor name of your app and specify the right port for your Rust application (8081 in our case)
+Again, replace `your-app` with the proper name of your app and specify the right port for your Rust application (8081 in our case)
 
 The above configuration works for the case where Rust application will run on subdomain. In case main domain is used replace ServerName with something like `your-app.com`, where your-app refers to your domain name.
 
 After the subdomain config file is saved, the subdomain needs to be enabled by typing:
 ```console
 $ sudo /usr/sbin/a2ensite your-app.conf
-
+```
+If everything is ok with your configuration file, the script will echo:
+```console
 Enabling site your-app.
 To activate the new configuration, you need to run:
   systemctl reload apache2
 ```
 
-Finally let's restart Apache service in order for our changes (and our newly configured site) to become active:
+Finally let's restart Apache service as instructed above in order for our changes (and our newly configured site) to become active:
 ```console
 $ sudo systemctl reload apache2
 ```
@@ -239,12 +241,17 @@ Hello, world!
 
 Seems to work! If you got this far, you have now functional Rust Rocket web application on your subdomain. Congratulations!
 
-If however, like in our case that server requires secure https access, there is still one more final step to open the application for public use. That is setting up the certificate.
+If however, like in our case, server requires secure https access, there is still one more final step to open the application for public use. That is setting up the certificate and virtual host for https access.
 
-We will be using certbot to create a subdomain certificate for us. It can be done easily by typing:
+We will be using certbot to create a subdomain certificate for us. This can be easily done by typing:
 ```console
 $ sudo certbot --apache -d your-app.domain.com
-````
+```
+or simply:
+```console
+$ sudo certbot
+```
+and selecting site from the list provided.
 
 This creates following verbose output in case certificate creation is successful:
 ```console
@@ -284,8 +291,8 @@ Now we are ready and finally site is visible for external users at address: http
 Still couple of final hints and then we are done.
 
 1. To list existing certificates managed by certbot type: `sudo certbot certificates`
-2. To renew all Let's encrypt certificates type: `sudo certbot renew`. To make ensure Apache is using latest certificates type: `sudo systemctl restart apache2` after renewing certificates.
+2. To renew all Let's encrypt certificates type: `sudo certbot renew`. To ensure Apache is using latest certificates type: `sudo systemctl restart apache2` after renewing certificates.
 
-This ends our quite lengthy example how to deploy Rust Rocket web application on Virtual Private Server. Congratulations if you got this far!
+This ends our quite lengthy article how to deploy Rust Rocket web application on Virtual Private Server. Congratulations if you got this far!
 
 In the next article we will discuss how to add continuous development pipeline in order to run live updates to our demo application. 
